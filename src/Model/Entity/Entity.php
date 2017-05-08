@@ -17,20 +17,23 @@ class Entity extends CakeEntity {
 	 * @return string|array
 	 */
 	public static function enum($value, array $options, $default = null) {
-		if ($value !== null && !is_array($value)) {
-			if (array_key_exists($value, $options)) {
-				return $options[$value];
-			}
-			return $default;
+		
+        $settings += [
+            'default' => null,
+        ];
+
+        if ($value === null)
+            return $options;
+
+		if (array_key_exists($value, $options)) {
+			return $options[$value];
 		}
-		if ($value !== null) {
-			$newOptions = [];
-			foreach ($value as $v) {
-				$newOptions[$v] = $options[$v];
-			}
-			return $newOptions;
+
+		if (!!$settings['default']) {
+		    return $settings['default'];
 		}
-		return $options;
+
+        return 'ERROR';
 	}
 
 }
